@@ -1,1 +1,1 @@
-Lectura inicial
+Gitbook donde subiré las prácticas que realice en la asignatura de despliegue de aplicaciones web.

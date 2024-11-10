@@ -1,10 +1,10 @@
 # Tabla de contenidos
 
-* [Bienvenido](README.md)
+* [Gitbook de Lorién Borra](README.md)
 
 ## Practicas
 
-* [Capítulo 1](practica1.md)
+* [Práctica 1](practica1.md)
 
 ## Futuras anotaciones
 
