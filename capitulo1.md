@@ -1,11 +1,13 @@
-PRACTICA 1 - SERVIDOR [Servicios de red]
+# PRACTICA 1 - SERVIDOR [Servicios de red]
 
-# 1 - Cambiar el nombre de los equipos
+Lorién Borra Cruz
 
-## 2 - Cambio del nombre del servidor
+## 1 - Cambiar el nombre de los equipos
 
-Accedo con el comando sudo nano para editar el archivo \*\*\*/etc/hostname\*\*\* y pongo mi número
-de lista que es el 2 - (02), después reinicio el server con \*\*\*sudo reboot\*\*\*.
+### 1. - Cambio del nombre del servidor
+
+Accedo con el comando sudo nano para editar el archivo ***`/etc/hostname`*** y pongo mi número
+de lista que es el 2 - (02), después reinicio el server con ***sudo reboot***.
 
 Fotos tomadas después del cambio, mostrando los pasos.
 ![Texto alternativo](./imagenes/cambionombreserver1.png)
@@ -13,7 +15,7 @@ Fotos tomadas después del cambio, mostrando los pasos.
 ![Texto alternativo](./imagenes/cambionombreserver3.png)
 ![Texto alternativo](./imagenes/cambionombreserver4.png)
 
-## 2 - Cambio del nombre del cliente ubuntu
+### 1.2 - Cambio del nombre del cliente ubuntu
 
 Ejecuto el comando de \*\*\*hostnamectl set-hostname\*\*\* e indico el nuevo nombre, después compruebo
 los cambios ejecutando tan solo \*\*\*hostnamectl\*\*\* y veo en static hostname como el nombre 
@@ -23,7 +25,7 @@ Fotos tomadas después del cambio, mostrando los pasos.
 ![Texto alternativo](./imagenes/cambionombreubunt1.png)
 ![Texto alternativo](./imagenes/cambionombreubunt2.png)
 
-## 3 - Cambio de nombre del cliente windows
+### 1.3 - Cambio de nombre del cliente windows
 
 Dentro de congifuración de sistema, en el apartado \*\*\*acerca de\*\*\* le doy al botón de 
 \*\*\*cambiar el nombre de este equipo\*\*\* e indico el nombre windows02.
@@ -31,9 +33,9 @@ Dentro de congifuración de sistema, en el apartado \*\*\*acerca de\*\*\* le doy
 Fotos tomadas después del cambio, mostrando los pasos.
 ![Texto alternativo](./imagenes/cambiarnombrewindows1.png)
 
-# 2 - congifuración de la tarjeta de red   
+## 2 - congifuración de la tarjeta de red   
 
-## 1 - Configuración del ubuntu server
+### 2.1 - Configuración del ubuntu server
 
 Para configurar la tarjeta de red debo dirijirme a \*\*\*/etc/netplan/01-netcfg.yaml\*\*\* y como voy a editarlo 
 lo hare con \*\*\*nano\*\*\* y con \*\*\*sudo\*\*\*. \*foto 1\*
@@ -46,7 +48,7 @@ la última foto\*.
 ![Texto alternativo](./imagenes/configuracionubuntuserver2.png)
 ![Texto alternativo](./imagenes/configuracionubuntuserver3.png)
 
-## 2 - Configuración del cliente ubuntu
+### 2.2 - Configuración del cliente ubuntu
 
 Accedo a la configuración de red avanzada, \*primera foto\+ ahí selecciono la tercer tarjeta de red, \*segunda foto\* y en ajustes de IPV4 selecciono
 el método a \*\*\*Manual\*\*\* y en dirección ahora le asigno \*\*\*192.168.2.2\*\*\* de forma que el cliente ubuntu es el nuevo host 2 y en 
@@ -62,7 +64,7 @@ compruebo si las respuestas del servidor son exitosas, \* quinta fotos\*.
 ![Texto alternativo](./imagenes/configuracionclienteubuntu4.png)
 ![Texto alternativo](./imagenes/configuracionclienteubuntu5.png)
 
-## 3 - Configuración del cliente windows
+### 2.3 - Configuración del cliente windows
 
 En windows dentro de \*\*\*Configuración de red e internet\*\*\* selecciono \*\*\*Cambiar opciones de adaptador\*\*\*, primera foto, y a su vez dentro selecciono la \*\*\*tercera tarjeta de red\*\*\*, segunda foto.
 Al seleccionarla accedemos a \*\*\*propiedades - protocolo de internet versión 4\*\*\*, tercera foto, y configuro de neuvo la dirección ip de este host que será el \*\*\*3\*\*\* de forma que
@@ -77,7 +79,7 @@ Luego pruebo la correta comunicación haciendo \*\*\*ping a 192.168.2.1\*\*\*, �
 ![Texto alternativo](./imagenes/configuracionclientewindows5.png)
 ![Texto alternativo](./imagenes/configuracionclientewindows6.png)
 
-# 3 - Configuración DHCP en ubuntu server y pruebas clientes
+## 3 - Configuración DHCP en ubuntu server y pruebas clientes
 
 ## Configurando DHCP en el ubuntu server
 Dado que tengo instalado el servicio DHCP me dirijo directamente a su configuracion en el archivo \*\*\*/etc/dhcp/dhcpd.conf\*\*\*, primera foto.
