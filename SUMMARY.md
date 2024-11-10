@@ -4,7 +4,7 @@
 
 ## Practicas
 
-* [Capítulo 1](capitulo1.md)
+* [Capítulo 1](practica1.md)
 
 ## Futuras anotaciones
 
