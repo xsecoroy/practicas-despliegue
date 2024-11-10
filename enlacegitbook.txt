@@ -1,1 +1,1 @@
-https://secoroy-docs.gitbook.io/pruebas-despliegue/practicas/practica1#configurando-dhcp-en-el-ubuntu-server
+https://secoroy-docs.gitbook.io/pruebas-despliegue/practicas/practica1
