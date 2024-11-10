@@ -1,4 +1,4 @@
-# PRACTICA 1 - SERVIDOR [Servicios de red]
+# PRACTICA - SERVIDOR [Servicios de red]
 
 Lorién Borra Cruz
 
@@ -18,8 +18,8 @@ Fotos tomadas después del cambio, mostrando los pasos y resultado.<br><br>
 
 Ejecuto el comando de `hostnamectl set-hostname` e indico el nuevo nombre, después compruebo los cambios ejecutando tan solo `hostnamectl` y veo en ***static hostname*** como el nombre ha cambiado, o bien ejecuto `hostname` y me lo indica.
 
-Fotos tomadas después del cambio, mostrando los pasos.<br>
-![Texto alternativo](./imagenes/cambionombreubunt1.png)<br>
+Fotos tomadas después del cambio, mostrando los pasos.<br><br>
+![Texto alternativo](./imagenes/cambionombreubunt1.png)<br><br>
 ![Texto alternativo](./imagenes/cambionombreubunt2.png)<br>
 
 ### 1.3 - Cambio de nombre del cliente windows
@@ -27,7 +27,7 @@ Fotos tomadas después del cambio, mostrando los pasos.<br>
 Dentro de configuración de sistema, en el apartado ***acerca de*** le doy al botón de 
 ***cambiar el nombre de este equipo*** e indico el nombre **windows02**.
 
-Fotos tomadas después del cambio, mostrando los pasos.<br>
+Fotos tomadas después del cambio, mostrando los pasos.<br><br>
 ![Texto alternativo](./imagenes/cambiarnombrewindows1.png)<br>
 
 ## 2 - Congifuración de la tarjeta de red   
@@ -40,7 +40,7 @@ Para configurar la tarjeta de red debo dirijirme a `/etc/netplan/01-netcfg.yaml`
 Configuro la tercera tarjeta de red **enp3s0** para que sea estática y escribo el address que corresponde a mi número, el 02, **192.168.2.1/24**.<br><br>
 ![Texto alternativo](./imagenes/configuracionubuntuserver2.png)<br>
 
-Tras aplicar con `netplan apply` veo como los cambios se han actualizado con `ip a`.
+Tras aplicar con `netplan apply` veo como los cambios se han actualizado con `ip a`.<br><br>
 ![Texto alternativo](./imagenes/configuracionubuntuserver3.png)<br>
 
 ### 2.2 - Configuración del cliente ubuntu
@@ -76,26 +76,26 @@ Luego pruebo la correcta comunicación haciendo `ping a 192.168.2.1``.<br><br>
 ### Configurando DHCP en el ubuntu server
 Dado que tengo instalado el servicio DHCP me dirijo directamente a su configuración en el archivo `/etc/dhcp/dhcpd.conf`.
 Dentro del archivo hago la configuración de red y su rango, al ser yo 2, la subnet indico **192.168.102.0** y en el rango del
-**192.168.102.100** al **192.168.102.200**, y especifico la puerta de enlace predeterminada con ***option routers***.<br>
-![Texto alternativo](./imagenes/configdhcpserver1.png)<br>
+**192.168.102.100** al **192.168.102.200**, y especifico la puerta de enlace predeterminada con ***option routers***.<br><br>
+![Texto alternativo](./imagenes/configdhcpserver1.png)<br><br>
 ![Texto alternativo](./imagenes/configdhcpserver2.png)<br>
 
 Después tengo que configurar `/etc/netplan/00-installer-config.yaml` en concreto voy a configurar la 4 tarjeta de red.
 La configuro para garantizar, dado que tengo varias tarjetas, que se sea estatica y por tanto enp4s0 tiene la IP estática **192.168.102.1/24**, sirviendo como la puerta de enlace para el resto de clientes DHCP que se quieran conectar a esa red.
 Además pongo `dhc4p0: false` pues será el servidor que he configurado quien asiganará las IP según el rango delimitado y además la IP fija sirve para que los clientes sepan donde conectarse, esa puerta de enlace que nombraba antes.<br><br>
-![Texto alternativo](./imagenes/configdhcpserver3.png)<br>
+![Texto alternativo](./imagenes/configdhcpserver3.png)<br><br>
 ![Texto alternativo](./imagenes/configdhcpserver6.png)<br>
 
 Lo siguiente será acceder a `/etc/default/isc-dhcp-server` y en V4 poner el nombre de la tarjeta de red configurada, **dhc4p0**.<br><br>
-![Texto alternativo](./imagenes/configdhcpserver4.png)<br>
+![Texto alternativo](./imagenes/configdhcpserver4.png)<br><br>
 ![Texto alternativo](./imagenes/configdhcpserver5.png)<br>
 
 Después procedo a reiniciar DHCP con `sudo systemctl restart isc-dhcp-server` y con `ip a` ver la correcta asignación de la ip a la tarjeta de red. <br><br>
-![Texto alternativo](./imagenes/configdhcpserver7.png)<br>
+![Texto alternativo](./imagenes/configdhcpserver7.png)<br><br>
 ![Texto alternativo](./imagenes/configdhcpserver8.png)<br>
 
 Después compruebo que está ejecutandose correctamente con `sudo systemctl status isc-dhcp-server` y que el puerto 67 está en espera.<br><br>
-![Texto alternativo](./imagenes/escuchadhcp.png)<br>
+![Texto alternativo](./imagenes/escuchadhcp.png)<br><br>
 ![Texto alternativo](./imagenes/dhcppuerto67.png)<br>
 
 ### Configurando DHCP en el cliente ubuntu
