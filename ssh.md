@@ -2,27 +2,27 @@
 
 ## 1 - Instalar SSH en el Servidor
 
-### 1. - Ya se encuentra instalado
+### 1.1 - Ya se encuentra instalado
 
 Para comprobar si tengo SSH instalado en el server ejecuto este comando: 
 `dpkg -l | grep openssh-server`
 
 Si aparece una línea con openssh-server, significa que está instalado.
 
-![Texto alternativo](./imagenes/ssh-comprobacion-instalado.png)<br><br>
+![Texto alternativo](./imagenes/ssh-comprobacion-instalado.png)<br>
 
-Después verifico su estado, si esta activo, con `sudo systemctl status ssh`
+Después verifico su estado, es decir, si esta activo, con `sudo systemctl status ssh` .
 
-![Texto alternativo](./imagenes/ssh-estado.png)<br><br>
+![Texto alternativo](./imagenes/ssh-estado.png)<br>
 
-Si no saliera active como en la imagen lo inicio así: `sudo systemctl start ssh`
+Si no saliera **active** como en la imagen lo inicio así: `sudo systemctl start ssh`
 
 Después verifico si el puerto SSH esta activo, es decir, esta escuchando en el
-puerto predeterminado 22, será correcto ai aparece algo así  0.0.0.0:22 o :::22.
+puerto predeterminado 22, será correcto si aparece algo así  0.0.0.0:22 o :::22.
 
-![Texto alternativo](./imagenes/ssh-puerto22-escucha.png)<br><br>
+![Texto alternativo](./imagenes/ssh-puerto22-escucha.png)<br>
 
-### 1. - No se encuentra instalado
+### 1.2 - SSH no se encuentra instalado
 
 Si no se encuentra instalado ejecuto estos dos comandos:
 `apt update` y `apt install openssh-server`.
@@ -30,39 +30,34 @@ Si no se encuentra instalado ejecuto estos dos comandos:
 Si lo acabamos de instalar debemos iniciarlo con  `sudo systemctl start ssh`
 y permitir su inicio en el arranque del equipo con `systemctl enable ssh` .
 
-Si queremos cambiar cierto parametros o ver cierta información accedemos a
-`sudo nano /etc/ssh/sshp_config` doned podemos cambiar por ejemplo el puerto
-predeterminado en #Port 22 
+Si queremos cambiar ciertoa parametros o ver cierta información accedemos a
+`sudo nano /etc/ssh/sshp_config` donde podemos cambiar por ejemplo el puerto
+predeterminado en #Port 22.
 
-![Texto alternativo](./imagenes/ssh-config.png)<br><br>
+![Texto alternativo](./imagenes/ssh-config.png)<br>
 
 Eso si, si se aplican cambios habrá que reiniciarlo con `sudo systemctl restart ssh` .
 
 
-## 1 - Conexión y pruebas desde el cliente ubuntu
+## 2 - Conexión y pruebas desde el cliente ubuntu
 
-Previamente deberé tener una clave SSH en la maquina cliente para ello lo consiguo
+Previamente deberé tener una clave SSH en la maquina cliente, para ello la consiguo
 con el comando `ssh-keygen` el cual me generará una nueva clave pudiendo sobreescribir
 la existente o creando uan nueva especificando ruta y nombre:
 
-![Texto alternativo](./imagenes/ssh-nueva-keygen.png)<br><br>
+![Texto alternativo](./imagenes/ssh-nueva-keygen.png)<br>
 
 Lo siguiente es crear la conexión entre el cliente y el servidor para usarse en adelante sin contraseña.
-Para ello teniendo esto en cuenta:
-Clave privada: ~/.ssh/new_ssh_key → Es tu identificador único secreto. Debe mantenerse segura y no compartirse.
+Para ello teniendo esto en cuenta:<br>
+Clave privada: ~/.ssh/new_ssh_key → Es tu identificador único secreto. Debe mantenerse segura y no compartirse.<br>
 Clave pública: ~/.ssh/new_ssh_key.pub → Es la parte que compartes con los servidores para autenticarte.
 
-Con `ssh-copy-id` copio la **calve pública** del cliente en el archivo **authorized_keys** del servidor el cual 
-almacena las claves públicas autorizadas para conexión, en la carpeta `~/.ssh/authorized_keys` de mi servidor siendo este
-**192.168.2.1**.
-Una vez almacenada en futuras conexiones y transferencias leera la clave pública de **authorized_key** y la comparara con 
-la clave privada del cliente y si coinciden, te autentica sin pedir contraseña.
+Con `ssh-copy-id` copio la **clave pública** de la maquina cliente en el archivo **authorized_keys** del servidor el cual almacena las claves públicas autorizadas para realizar la conexión, las guarda en la carpeta `~/.ssh/authorized_keys` de mi servidor siendo este **192.168.2.1**.
+Una vez almacenada en futuras conexiones y transferencias leera la clave pública de **authorized_key** y la comparara con  la clave privada del cliente y si coinciden, te autentica sin pedir contraseña.
 
-El comando es completo es `ssh-copy-id -i ~/.ssh/new_ssh_key.pub isard@192.168.2.1`
-donde nos pedira una última vez la contraseña para confirmar.
+El comando completo es `ssh-copy-id -i ~/.ssh/new_ssh_key.pub isard@192.168.2.1` donde nos pedira una última vez la contraseña para confirmar.
 
-***OJO - Uso -i seguido de la ruta pro que estoy usando una keyhen alternativa*** si fuera la principal sería solo
-`ssh-copy-id isard@192.168.2.1`
+***OJO - Uso -i seguido de la ruta por que estoy usando una keyhen alternativa*** si fuera la principal sería solo `ssh-copy-id isard@192.168.2.1`
 ![Texto alternativo](./imagenes/ssh-add-keygen-server.png)<br><br>
 
 También lo compruebo desde el lado cliente para verificar que el server esta escuchando y me puedo conectar de forma remota. 
@@ -97,7 +92,7 @@ la máquina local, sin necesidad de conectarte primero con ssh.
 
 No necesitas hacer primero el ssh, porque scp por sí solo manejará la conexión SSH al servidor de destino y copiará el archivo. **
 
-## 1 - Envio y transferancia de archivos entre el cliente ubuntu y el servidor.
+## 3 - Envio y transferancia de archivos entre el cliente ubuntu y el servidor.
 
 Para enviar archivos al servidor desde el cliente utilizo el comando **scp**, el cual se utiliza para 
 copiar archivos de manera segura entre sistemas remotos a través de SSH, siendo el comando completo:
