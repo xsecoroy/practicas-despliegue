@@ -6,5 +6,7 @@
 
 * [Práctica 1](practica1.md)
 
-## Futuras anotaciones
+## Apuntes personales
+
+* [SSH](ssh.md)
 
