@@ -49,8 +49,8 @@ la existente o creando una nueva especificando ruta y nombre:
 
 Lo siguiente es crear la conexión entre el cliente y el servidor para usarse en adelante sin contraseña.
 Para ello teniendo esto en cuenta:<br>
-Clave privada: ~/.ssh/new_ssh_key → Es tu identificador único secreto. Debe mantenerse segura y no compartirse.<br>
-Clave pública: ~/.ssh/new_ssh_key.pub → Es la parte que compartes con los servidores para autenticarte.
+Clave privada: ~/.ssh/new_ssh_key → Es el identificador único secreto. Debe mantenerse segura y no compartirse.<br>
+Clave pública: ~/.ssh/new_ssh_key.pub → Es la parte que debo compartir con los servidores para autenticarme.
 
 Con `ssh-copy-id` copio la **clave pública** de la maquina cliente en el archivo **authorized_keys** del servidor el cual almacena las claves públicas autorizadas para realizar la conexión, las guarda en la carpeta `~/.ssh/authorized_keys` de mi servidor siendo este **192.168.2.1**.
 Una vez almacenada en futuras conexiones y transferencias con el servidor, este leera la clave pública de **authorized_key** y la comparara con  la clave privada del cliente y si coinciden, te autentica sin pedir contraseña.
