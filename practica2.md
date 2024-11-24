@@ -54,11 +54,11 @@ Servicio de DNS
   >![Texto alternativo](./imagenes/dig-bitbucket.png)<br><br>
   > OJO hoy domingo hice de nuevo la consulta de `host bitbucket.com` y me dio estas tres IP distintas a las anteriores:
   > **186.166.143.48 | 186.166.143.49 | 186.166.143.50**. Según he leido puede haber múltiples razones siendo una de la más comúnes
-  > por balanceo de carga, lo que puede conllevar que las IPs puedan cambiar con el tiempo, es decir o por usar CDNs dinámicos o según la carga en la red.
+  > por balanceo de carga, lo que puede conllevar que las IPs puedan cambiar con el tiempo, es decir o por usar CDNs dinámicos o según la carga en la red.<br><br>
   >![Texto alternativo](./imagenes/nuevohost.png)<br><br>
 
   - Quien resuelve su DNS
-  > Ejecuto `dig bitbucket.com NS` y obtengo los resultados en **ANSWER SECTION** <br><br>
+  > Ejecuto `dig bitbucket.com NS` y obtengo los resultados en **ANSWER SECTION**. <br><br>
   >![Texto alternativo](./imagenes/dig-dns.png)<br><br>
   > Ejecuto `host -t ns bitbucket.com` y lo mismo.<br><br>
   >![Texto alternativo](./imagenes/host-dns.png)<br><br>

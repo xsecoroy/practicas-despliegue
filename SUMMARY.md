@@ -11,4 +11,5 @@
 ## Apuntes personales
 
 * [SSH](ssh.md)
+* [DNS](DNS.md)
 
