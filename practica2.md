@@ -42,42 +42,63 @@ Servicio de DNS
   15. apple.com
 
 - Intenta resolver las siguientes preguntas con con las 3 herramientas presentadas: host,nslookup y dig.
-> Primero me conecto por ssh a mi servidor con **ssh isard@192.168.2.1**
+> Primero me conecto por ssh a mi servidor con **ssh isard@192.168.2.1**<br><br>
 ![Texto alternativo](./imagenes/conexion-ssh.png)<br><br>
   - Busca la IP asignada
-  > Ejecuto **host bitbucket.com**
-  > Obtengo 3 siendo estas: **186.166.142.21** | **186.166.142.22** |**186.166.142.23**
+  > Ejecuto `host bitbucket.com`<br><br>
+  > Obtengo 3 siendo estas: **186.166.142.21** | **186.166.142.22** |**186.166.142.23** <br><br>
   >![Texto alternativo](./imagenes/host-bitbucket.png)<br><br>
-  > Ejecuto **nslookup bitbucket.com** y obtengo los mismos resultados.
+  > Ejecuto `nslookup bitbucket.com` y obtengo los mismos resultados. <br><br>
   >![Texto alternativo](./imagenes/nslookup-bitbucket.png)<br><br>
-  > Ejecuto **dig bitbucket.com** y obtengo los mismos resultados en ***ANSWER SECTION***
+  > Ejecuto `dig bitbucket.com` y obtengo los mismos resultados en ***ANSWER SECTION***<br><br>
   >![Texto alternativo](./imagenes/dig-bitbucket.png)<br><br>
+  > OJO hoy domingo hice de neuvo la consulta de `host bitbucket.com` y me dio esats tres Ip distintas a las anteriores:
+  > **186.166.143.48 | 186.166.143.49 | 186.166.143.50**. Según he leido puede haber múltipels razones siendo una de la más común
+  > por balanceo de carga,lo que puede conllevar que las IPs puedan cambiar con el tiempo,por usar CDNs dinámicos o según la carga en la red.
+  >>![Texto alternativo](./imagenes/nuevohost.png)<br><br>
 
   - Quien resuelve su DNS
-  > Ejecuto **nslookup NS bitbucket.com** y obtengo cuatro resultados en ***ANSWER SECTION*** siendo estos: **ns-1476.awsdns-56.org.** | **ns-76.awsdns-09.com.** | **ns-1827.awsdns-36.co.uk.** | **ns-657.awsdns.18.net.**
-  >![Texto alternativo](./imagenes/DNSlookup.png)<br><br>
   > Ejecuto **dig bitbucket.com NS** y obtengo los mismos resultados
   >![Texto alternativo](./imagenes/dig-dns.png)<br><br>
   > Ejecuto **host -t ns bitbucket.com** y lo mismo.
   >![Texto alternativo](./imagenes/host-dns.png)<br><br>
+  > Ejecuto **nslookup -query=NS bitbucket.com** y obtengo cuatro resultados en todas las consultas, siendo estos quienes resuelven el DNS: **ns-1476.awsdns-56.org.** | **ns-76.awsdns-09.com.** | **ns-1827.awsdns-36.co.uk.** | **ns-657.awsdns.18.net.**<br><br>
+  >![Texto alternativo](./imagenes/nslookup-query.png)<br><br>
+
+  >**PROCESO CONSULTA DNS**<br><br>
+
+  > En base a las respuestas, en especial la última se ve que mi sistema está utilizando un resolutor local ed DNS, **127.0.0.53**, para enviar consultas DNS.
+  > Este resolutor local no conoce directamente las respuestas para todos los dominios, así que actúa como un intermediario. 
+  > Si la respuesta no está en mi caché, el resolutor local reenviará la consulta a servidores DNS externos configurados en mi sistema.
+  > Un externo podría ser 8.8.8.8, Los resolutores externos se comunican con los servidores autoritativos de bitbucket.com (ns-1476.awsdns-56.org, etc.)
+  > los que me salen en la respuestas de las consultas anteriores, y así obtener la respuesta final. 
+  > Una vez obtenida la respuesta esta viaja de los servidores autoritativos → resolutor externo → resolutor local → mi terminal.<br><br>
 
   - Cuál es el servidor de correo electrónico. Si hay varios, determina cual es primero por su prioridad.
-  > Ejecuto el siguiente comando **host -t MX bitbucket.com** y la respuesta que recibo es que no hay no hat record de MX para ese dominio.
+  > Ejecuto el siguiente comandode **host** `host -t MX bitbucket.com` y la respuesta que recibo es que no hay no hay record de MX para ese dominio.
   >![Texto alternativo](./imagenes/MX.png)<br><br>
-  > Con **dig** ejecuto el comando **dig bitbucket.com MX**
+  > Con **dig** ejecuto el comando `dig bitbucket.com MX`
   >![Texto alternativo](./imagenes/dig-MX.png)<br><br>
-  > Con **nslookup** ejecuto el comando **nslookup -query=mx bitbucket.com**
+  >![Texto alternativo](./imagenes/diga-bucket.png)<br><br>
+  > Recibo answer 0 lo que indica que no hay registros MX para el dominio bitbucket.com, no hay configurado o esatblecido un servidor de para los correos
+  > que se envien a bitbucket.com. Al tener los registros MX en este caso , el servidor de correo intentará usar las IP asociadas al registro A de bitbucket,
+  > Por tanto los correos dirigidos o enviado a bitbucket.com se intentarían entregar a uno de esos servidores en las direcciones IP A, los de la segunda foto de dig.
+  > Con **nslookup** ejecuto el comando `nslookup -query=mx bitbucket.com`
   >![Texto alternativo](./imagenes/nslookup-MX.png)<br><br>
 
   - Haz la búsqueda de forma autorizada, es decir, que el servidor que contesta sea uno de los registos NS del dominio.
   > He de usar alguno de los obtenidos en el paso 2, como puede ser **ns-1476.awsdns-56.org.**
-  > Ejecuto el siguiente comando de **dig** con esa direccion **dig <servidorDNS> dominio A** por tanto **dig ns-1476.awsdns-56.org. bitbucket.com A** .
+  > Ejecuto el siguiente comando de **dig** con esa direccion `dig <servidorDNS> dominio A` por tanto `dig ns-1476.awsdns-56.org. bitbucket.com A` <br><br>
   >![Texto alternativo](./imagenes/lookupautorizado1.png)<br><br>
    >![Texto alternativo](./imagenes/lookupautorizado2.png)<br><br>
-  > Con **lookup** ejecuto el comando **nslookup bitbucket.com ns-1476.awsdns-56.org**
+  > Con **lookup** ejecuto el comando `nslookup bitbucket.com ns-1476.awsdns-56.org`
   >![Texto alternativo](./imagenes/lookupautorizado3.png)<br><br>
 
 ### Suplantar servicio DNS localmente.
+
+> El archivo /etc/hosts es una forma de configuración local del sistema que me permite asignar nombres de dominio a direcciones IP 
+> sin utilizar servidores DNS externos.<br><br>
+> 
 
 - Edita el fichero `/etc/hosts` para que resuelva un nombre de dominio falso con el siguiente esquema: 
   - `miapellido.local` asociado a la dirección 127.0.0.1
@@ -88,18 +109,29 @@ Servicio de DNS
 > ![Texto alternativo](./imagenes/suplantar_dns2.png)<br><br>
 > ![Texto alternativo](./imagenes/suplantar_dns3.png)<br><br>
 > ![Texto alternativo](./imagenes/suplantar_dns5.png)<br><br>
-- Comprueba la misma resolución pero haciendo que el servidor consultado sea el 8.8.8.8
+- Comprueba la misma resolución pero haciendo que el servidor consultado sea el 8.8.8.8<br><br>
+> **host**<br><br>
 > ![Texto alternativo](./imagenes/suplantar_dns4.png)<br><br>
+> **nslookup**<br><br>
 > ![Texto alternativo](./imagenes/diges.png)<br><br>
+> **dig**<br><br>
 > ![Texto alternativo](./imagenes/diglocal.png)<br><br>
+
 > A considerar, en .es y .local aparece **status: NXDOMAIN** lo cual indica que el dominio no existe en los servidores DNS de Google,
-> ni en ningún DNS público. Además aparece **ANSWER: 0:** lo que indica que no hay registros A, ya que el dominio no existe.
-> Por último **AUTHORITY SECTION:** Muestra información del servidor autoritativo para el TLD (.es). Aquí se ve un servidor relacionado 
-> con el registro .es (por ejemplo, a.nic.es), que confirma que el dominio no está registrado.
-> *** La rzón es que el comando dig @8.8.8.8 está consultando un servidor DNS externo que no tiene información sobre mi configuración local en /etc/hosts ***
+> ni en ningún DNS público,y es que el servidor DNS de Google no tiene acceso a tu archivo **/etc/hosts**, por lo que no sabe nada 
+> sobre las configuraciones locales que he hecho en mi máquina.<br><br>
+> Además aparece **ANSWER: 0:** lo que indica que no hay registros A, ya que el dominio no existe, Como esos dominios no están registrados 
+> en Internet los servidores DNS de Google no tienen información sobre ellos.<br><br>
+> Por último **AUTHORITY SECTION:** Muestra información del servidor autoritativo para el TLD (.es). Aquí el servidor DNS me está indicando quién 
+> es el encargado de administrar los dominios .es, el cual confirma que el dominio no está registrado.
+> *** La razón es que el comando dig @8.8.8.8 está consultando un servidor DNS externo que no tiene información sobre mi configuración local en /etc/hosts ***
 > ![Texto alternativo](./imagenes/digcom.png)<br><br>
-> Aqui en cambio **status: NOERROR** Indica que el dominio existe y que el servidor DNS tiene registros asociados para él.
+> Aqui en cambio **status: NOERROR** Indica que el dominio si existe y que el servidor DNS tiene registros asociados para él.
 > De hecho en **ANSWER SECTION:** Ahora si muestra los registros de tipo A (direcciones IPv4) asociados al dominio, tiene dos registros A.
+> Por tanto la diferencia a probar con este ejericio fue:
+>Consultas con dig o nslookup a servidores DNS externos: Estos servidores resolverán los dominios basándose en registros públicos de Internet. Si el dominio no está registrado públicamente, me devolverán un error como NXDOMAIN.<br><br>
+> Consultas localmente (sin @8.8.8.8): Si hago la consulta sin especificar un servidor DNS (solo dig borra.local o dig borra.com), mi sistema utilizará el archivo /etc/hosts, por lo que resolverá las direcciones según lo que configuraste localmente.<br><br>
+
 ### Configuración del servidor  DNS con BIND9
 sudo vim db.cabeza.edu
 Dentro de /etc/bind ns1.borra.edu. admin.borra.edu. (
