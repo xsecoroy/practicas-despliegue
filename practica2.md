@@ -1,4 +1,4 @@
-Práctica 2. DNS
+#  Práctica 2. DNS
 
 Servicio de DNS
 
@@ -26,7 +26,7 @@ Servicio de DNS
 
 - Toma un dominio público de acuerdo a tu número de alumno:
   1. gitlab.com
-  2. bitbucket.com
+  **2. bitbucket.com**
   3. android.com
   4. trello.com
   5. atlassian.com
@@ -41,7 +41,7 @@ Servicio de DNS
   14. heraldo.es
   15. apple.com
 
-- Intenta resolver las siguientes preguntas con con las 3 herramientas presentadas: host,nslookup y dig.
+## - Intenta resolver las siguientes preguntas con con las 3 herramientas presentadas: host,nslookup y dig.
 > Primero me conecto por ssh a mi servidor con **ssh isard@192.168.2.1**<br><br>
 ![Texto alternativo](./imagenes/conexion-ssh.png)<br><br>
   - Busca la IP asignada
@@ -57,7 +57,7 @@ Servicio de DNS
   > por balanceo de carga, lo que puede conllevar que las IPs puedan cambiar con el tiempo, es decir o por usar CDNs dinámicos o según la carga en la red.<br><br>
   >![Texto alternativo](./imagenes/nuevohost.png)<br><br>
 
-  - Quien resuelve su DNS
+  ## - Quien resuelve su DNS
   > Ejecuto `dig bitbucket.com NS` y obtengo los resultados en **ANSWER SECTION**. <br><br>
   >![Texto alternativo](./imagenes/dig-dns.png)<br><br>
   > Ejecuto `host -t ns bitbucket.com` y lo mismo.<br><br>
@@ -73,7 +73,7 @@ Servicio de DNS
   > los que me salen en la respuestas de las consultas anteriores, y así obtener la respuesta final. 
   > Una vez obtenida la respuesta esta viaja de los servidores autoritativos → resolutor externo → resolutor local → mi terminal.<br><br>
 
-  - Cuál es el servidor de correo electrónico. Si hay varios, determina cual es primero por su prioridad.
+  ## - Cuál es el servidor de correo electrónico. Si hay varios, determina cual es primero por su prioridad.
   > Ejecuto el siguiente comando de **host** `host -t MX bitbucket.com` y la respuesta que recibo es que no hay no hay record de MX para ese dominio.<br><br>
   >![Texto alternativo](./imagenes/MX.png)<br><br>
   > Con **dig** ejecuto el comando `dig bitbucket.com MX` y lo mismo.<br><br>
@@ -85,7 +85,7 @@ Servicio de DNS
   > Con **nslookup** ejecuto el comando `nslookup -query=mx bitbucket.com`<br><br>
   >![Texto alternativo](./imagenes/nslookup-MX.png)<br><br>
 
-  - Haz la búsqueda de forma autorizada, es decir, que el servidor que contesta sea uno de los registos NS del dominio.
+  ## - Haz la búsqueda de forma autorizada, es decir, que el servidor que contesta sea uno de los registos NS del dominio.
   > He de usar alguno de los obtenidos en el paso 2, como puede ser **ns-1476.awsdns-56.org.**
   > Ejecuto el siguiente comando de **dig** con esa direccion `dig <servidorDNS> dominio A` por tanto `dig ns-1476.awsdns-56.org. bitbucket.com A` <br><br>
   >![Texto alternativo](./imagenes/lookupautorizado1.png)<br><br>
@@ -93,25 +93,25 @@ Servicio de DNS
   > Con **lookup** ejecuto el comando `nslookup bitbucket.com ns-1476.awsdns-56.org`<br><br>
   >![Texto alternativo](./imagenes/lookupautorizado3.png)<br><br>
 
-### Suplantar servicio DNS localmente.
+## Suplantar servicio DNS localmente.
 
 > El archivo **/etc/hosts** es una forma de configuración local del sistema que me permite asignar nombres de dominio a direcciones IP 
 > sin utilizar servidores DNS externos.<br><br>
 > 
 
-- Edita el fichero `/etc/hosts` para que resuelva un nombre de dominio falso con el siguiente esquema: 
+## - Edita el fichero `/etc/hosts` para que resuelva un nombre de dominio falso con el siguiente esquema: 
   - `miapellido.local` asociado a la dirección 127.0.0.1
   - `miapellido.es` asociado a una dirección pública inventada.
   - `miapellido.com` asociado a la dirección del dominio de la primera parte de la práctica. Si eres el nº 1 sería `github.com`
   > ![Texto alternativo](./imagenes/suplantar_dns.png)<br><br>
-- Comprueba la resolución de los tres registros con alguna de las herramientas de diagnóstico.
+## - Comprueba la resolución de los tres registros con alguna de las herramientas de diagnóstico.
 > **host**<br><br>
 > ![Texto alternativo](./imagenes/suplantar_dns2.png)<br><br>
 > **nslookup**<br><br>
 > ![Texto alternativo](./imagenes/suplantar_dns3.png)<br><br>
 > **dig**<br><br>
 > ![Texto alternativo](./imagenes/suplantar_dns5.png)<br><br>
-- Comprueba la misma resolución pero haciendo que el servidor consultado sea el 8.8.8.8<br><br>
+## - Comprueba la misma resolución pero haciendo que el servidor consultado sea el 8.8.8.8<br><br>
 > **nslookup**<br><br>
 > ![Texto alternativo](./imagenes/suplantar_dns4.png)<br><br>
 > **dig**<br><br>
@@ -134,47 +134,46 @@ Servicio de DNS
 > **Consultas con dig o nslookup a servidores DNS externos**: Estos servidores resolverán los dominios basándose en registros públicos de Internet. Si el dominio no está registrado públicamente, me devolverán un error como NXDOMAIN.<br><br>
 > **Consultas localmente (sin @8.8.8.8)**: Si hago la consulta sin especificar un servidor DNS (solo dig borra.local o dig borra.com), mi sistema utilizará el archivo /etc/hosts, por lo que resolverá las direcciones según lo que configuraste localmente.<br><br>
 
-### Configuración del servidor  DNS con BIND9
-sudo vim db.cabeza.edu
+## Configuración del servidor  DNS con BIND9
 
-- Configura el dominio `miapellido.edu` en bind9. Debes hacerlo:
-  > Compruebo que **bind9** este activo.
-  >![Texto alternativo](./imagenes/status_dib9.png)<br><br>
+## - Configura el dominio `miapellido.edu` en bind9. Debes hacerlo:
   - En el servidor linux
   - Conectándote al mismo mediante SSH
   - Utiliza las direcciones IP de tu red privada (192.168.1xx.0/24)
+  > Compruebo que **bind9** este activo.<br><br>
+  >![Texto alternativo](./imagenes/status_dib9.png)<br><br>
   > He de configurar BIND9 desde **/etc/bind/** en concreto `sudo nano /etc/bind/named.conf.local` y lo configuro con mis datos.
   > El archivo **/etc/bind/named.conf.local** es donde puedo definir zonas de DNS locales y es el servidor BIND quien las gestiona.
-  > Cuando creo una **zone** como ***borra.edu*** en ese archivo, BIND que debe gestionará zona para el dominio ***borra.edu*** y como Además
+  > Cuando creo una **zone** como ***borra.edu*** en ese archivo, BIND gestionará  la zona para el dominio ***borra.edu*** y como además
   > establezo en la zone **file "/etc/bind/db.borra.edu"** con esto le indico a BIND cómo resolver las consultas para ese dominio y qué 
   > archivo de zona debe usar para obtener la información.
-  > Por tanto, El archivo **named.conf.local** simplemente le dice a BIND qué archivo de zona utilizar para gestionar las consultas de **borra.edu** 
+  > Por tanto, El archivo **named.conf.local** simplemente le dice a BIND qué archivo de zona utilizar para gestionar las consultas de **borra.edu**. 
   > Luego, BIND consulta **/etc/bind/db.borra.edu** para obtener la información.
 
   >Proceso de resolución de consultas:
-  >1 - Cuando quiero acceder a borra.edu, el servidor de nombres BIND consultará su archivo de configuración (el que contiene la zone borra.edu).
-  >2 - Como he configurado la zona para borra.edu en **named.conf.local**, BIND va a buscar la información correspondiente en el archivo de zona **/etc/bind/db.borra.edu**.
-  >3 - Si el archivo de zona contiene un registro A para www.borra.edu, así lo he hecho, BIND responderá con la dirección IP configurada en ese archivo.
+  > - 1 - Cuando quiero acceder a borra.edu, el servidor de nombres BIND consultará su archivo de configuración (el que contiene la zone borra.edu).
+  > - 2 - Como he configurado la zona para borra.edu en **named.conf.local**, BIND va a buscar la información correspondiente en el archivo de zona **/etc/bind/db.borra.edu**.
+  > - 3 - Si el archivo de zona contiene un registro A para www.borra.edu, así lo he hecho, BIND responderá con la dirección IP configurada en ese archivo.<br><br>
   >![Texto alternativo](./imagenes/named.conf.png)<br><br>
   - Deberás usar un fichero con un nombre similar a este: *db.miapellido.edu*
   >![Texto alternativo](./imagenes/fichodns.png)<br><br>
   
-- Debes definir:
+## - Se debe definir:
   - Número de versión 1
   - Un correo de administrador dentro del dominio.
   - Dos registros MX.
   - Dos registros NS con máquinas del propio dominio (por ejemplo *dns1* y *dns2*).
   - Varios registros A, al menos: *www, dns1, dns2*
   - Un registro CNAME asociado a la misma dirección que *www*
-   >Para ello accedo al archivo con `sudo nano /etc/bind/db.borra.edu` y lo edito con el resultado de la segunda foto:
+   >Para ello accedo al archivo con `sudo nano /etc/bind/db.borra.edu` y lo edito con el resultado de la segunda foto:<br><br>
    >![Texto alternativo](./imagenes/fichodns.png)<br><br>
    >![Texto alternativo](./imagenes/db.borra.edu.png)<br><br>
-   > La primera línea de **SOA** establece el registro SOA el cual indica que este archivo de zona es la autoridad para el dominio borra.edu, es al cabecera
-   > que decalra quien controla la configuración de ese dominio de zona. He de establecer un servidor DNS principal y el correo 
+   > La primera línea de **SOA** establece el registro SOA el cual indica que este archivo de zona es la autoridad para el dominio borra.edu, es la cabecera
+   > que declara quien controla la configuración de ese dominio de zona. He de establecer un servidor DNS principal y el correo 
    > electronico del administrador del dominio.
-   > Ojo he dcalrado cual sera el servidor NDS principal, pero he de configurarlo si o si luego en el archivo, por tanto si he declarado **dns1.borra.edu.** Como
+   > Ojo he declarado cual sera el servidor NDS principal, pero he de configurarlo si o si luego en el archivo, por tanto si he declarado **dns1.borra.edu.** Como
    > principal implica que debo decalrar un dns llamado **dns1** (mismo nombre quitando el dominio de zona). Le asigno obviamente una IP que será ese servidor
-   > el que gestionara las peticiones **dns1    IN  A   192.168.2.1** el servidor ubuntu, es decir la IP 192.168.2.1 es una máquina configurada como servidor DNS y así
+   > el que gestionará las peticiones **dns1    IN  A   192.168.2.1** el servidor ubuntu, es decir la IP 192.168.2.1 es una máquina configurada como servidor DNS y así
    > cualquier cliente o servidor que intente contactar con **dns1.borra.edu.** sabrá a qué IP conectarse, lo que hará que las consultas no fallen y responderá el servidor
    > las peticiones.
    > El símbolo **@** en el archivo de zona es un alias que se utiliza en los archivos de zona de BIND para hacer referencia al dominio principal de la zona, 
@@ -188,42 +187,44 @@ sudo vim db.cabeza.edu
    > cuando se acceda a **info.borra.edu** el servidor DNS va a buscar **www.borra.edu**, porque es lo que se ha definido en el registro CNAME. A su vez,  www.borra.edu tiene un registro A apuntando a 10.1.1.1, 
    > y por tanto la resolución de info.borra.edu también devolverá **10.1.1.1**.
    > En definitiva apunta un nombre de dominio a otro dominio y ese segundo dominio puede tener un registro A que apunte a una IP como este caso.
-- Para comprobar que tu configuración es correcta debes:
+## - Comprobar que la configuración es correcta :
   - Usar el comando de verificación sintáctica.
-  > Ejecuto estos 2 comandos `sudo named-checkconf` y `sudo named-checkzone borra.edu /etc/bind/db.borra.edu`.
+  > Ejecuto estos 2 comandos `sudo named-checkconf` y `sudo named-checkzone borra.edu /etc/bind/db.borra.edu`.<br><br>
   >![Texto alternativo](./imagenes/verificacion-sintactica.png)<br><br>
   - Reiniciar el servicio
-  > Lo reinicio y lo vuelvo a comprobar otra vez.
+  > Lo reinicio y lo vuelvo a comprobar otra vez.<br><br>
   >![Texto alternativo](./imagenes/verificacion-db.png)<br><br>
   - Probar la resolución usando nslookup y dig. Ojo, la resolución de nombres debe correr a cargo del servidor Ubuntu.
-  > Dig: www.borra.edu
+  > Dig: www.borra.edu<br><br>
   >![Texto alternativo](./imagenes/verificacion-dig1.png)<br><br>
-  > Dig: info.borra.edu
+  > Dig: info.borra.edu<br><br>
   >![Texto alternativo](./imagenes/verificacion-dig2.png)<br><br>
-  > Dig: borra.edu
+  > Dig: borra.edu<br><br>
   >![Texto alternativo](./imagenes/verificacion-dig3.png)<br><br>
 
-  > Nslookup: www.borra.edu tanto local como desde el server.
+  > Nslookup: www.borra.edu tanto local como desde el server.<br><br>
   >![Texto alternativo](./imagenes/verificacion-ns1.png)<br><br>
   >![Texto alternativo](./imagenes/ns-server1.png)<br><br>
-  > Nslookup: info.borra.edu tanto local como desde el server.
+  > Nslookup: info.borra.edu tanto local como desde el server.<br><br>
   >![Texto alternativo](./imagenes/verificacion-ns2.png)<br><br>
   >![Texto alternativo](./imagenes/ns-server2.png)<br><br>
   > Nslookup: borra.edu tanto local como desde el server.
   >![Texto alternativo](./imagenes/verificacion-ns3.png)<br><br>
   >![Texto alternativo](./imagenes/ns-server3.png)<br><br>
-- Trabajo extra. Para mejorar tu calificación se te propone:
+## - Trabajo extra. Para mejorar tu calificación se te propone:
   - Añadir una zona de resolución inversa
-  > La red que he usado en el ejercico es la red 192.168.2.0/24, la ya configurado en la práctica 1, soy el número 2 de la lista.
+  > La red que he usado en el ejercico es la red 192.168.2.0/24, la ya he configurado en la práctica 1, soy el número 2 de la lista.
   > Por tanto, el dominio y en consecuencia la zone será **2.168.192.in-addr.arpa**
-  > Para ello edito en `sudo nano /etc/bind/named.conf.local`
+  > Para ello edito en `sudo nano /etc/bind/named.conf.local`<br><br>
   >![Texto alternativo](./imagenes/zona-inversa.png)<br><br>
-  > Después creo el archivo de zona de para esta resolución inversa.
+  > Después creo el archivo de zona de para esta resolución inversa.<br><br>
   >![Texto alternativo](./imagenes/cp-inversa.png)<br><br>
-  > Después procedo a editar el archivo.
+  > Después procedo a editar el archivo.<br><br>
   >![Texto alternativo](./imagenes/cp-inversa.png)<br><br>
   >![Texto alternativo](./imagenes/inversa-db.png)<br><br>
-  > Hago las comprobaciones y reinicio
+  > Hago las comprobaciones y reinicio y compruebo<br><br98>
   >![Texto alternativo](./imagenes/prueba-inversa.png)<br><br>
+  >![Texto alternativo](./imagenes/dig-inverso1.png)<br><br>
+  >![Texto alternativo](./imagenes/dig-inverso2.png)<br><br>
 
   - Instalar Bind9 en el cliente Ubuntu y definirlo como DNS esclavo del primero.
