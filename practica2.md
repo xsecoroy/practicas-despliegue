@@ -228,3 +228,20 @@ Servicio de DNS
   >![Texto alternativo](./imagenes/dig-inverso2.png)<br><br>
 
   - Instalar Bind9 en el cliente Ubuntu y definirlo como DNS esclavo del primero.
+  > Primero ejecuto los comandos `sudo apt update` y luego `sudo apt isntall bind9 -y`<br><br>
+  > Accedo al archivo de **named.conf.local** del cliente ubuntu, esclavo, con el comando
+  > `sudo nano /etc/bind/named.conf.local` y lo configuro para la misma zona, pero el
+  > rol ahora es de esclavo, **type slave** además indico la IP del maestro y el fichero donde guardar la zona.<br><br>
+  >![Texto alternativo](./imagenes/edicion-esclavo.png)<br><br>
+  > Después accedo a mi ubuntu server, el servidor maestro, de nuevo a `sudo nano /etc/bind/named.conf.local` y lo configure añadiendo estas dos lineas  **allow-transfer { 192.168.2.2; };** y  
+  **also-notify { 192.168.2.2; };** a explicar: ***La direccion IP que se encuentra en los corchetes es la del esclavo*** <br><br>
+  >![Texto alternativo](./imagenes/maestro-edicion.png)<br><br>
+  >Después reinicio en ambos con `sudo systemctl restart bind9` y desde el esclavo hago una consulta a  la zona esclava `dig @127.0.0.1 -x 192.168.2.1` <br><br>
+  >![Texto alternativo](./imagenes/consulta-esclava.png)<br><br>
+  > Finalmente en mi cliente edito **sudo nano /etc/resolv.conf** y establezco **nameserver 127.0.0.1** y hago las prueba de resolución inversa desde el esclavo<br><br>.
+  >![Texto alternativo](./imagenes/prueba-inversa1.png)<br><br>
+  >![Texto alternativo](./imagenes/prueba-inversa2.png)<br><br>
+
+  IMPORTANTE: HE USADO LA RED INTERNA EN LA TODA PRÁCTICA2  QUE CONFIGURAMOS EN LA PRACTICA 1, SIENDO LA IP DEL SERVIDOR 192.168.2.1 Y LA DEL CLIENTE UBUNTU 192.168.2.2
+
+
