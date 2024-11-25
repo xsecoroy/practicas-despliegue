@@ -201,6 +201,8 @@ Servicio de DNS
   >![Texto alternativo](./imagenes/verificacion-dig2.png)<br><br>
   > Dig: borra.edu<br><br>
   >![Texto alternativo](./imagenes/verificacion-dig3.png)<br><br>
+  >Dig: dn1.borra.edu<br><br>
+  >![Texto alternativo](./imagenes/dn1borra.png)<br><br>
 
   > Nslookup: www.borra.edu tanto local como desde el server.<br><br>
   >![Texto alternativo](./imagenes/verificacion-ns1.png)<br><br>
