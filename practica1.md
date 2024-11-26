@@ -75,29 +75,53 @@ Luego pruebo la correcta comunicación haciendo `ping a 192.168.2.1``.<br><br>
 ## 3 - Configuración DHCP en ubuntu server y pruebas clientes
 
 ### Configurando DHCP en el ubuntu server
-Dado que tengo instalado el servicio DHCP me dirijo directamente a su configuración en el archivo `/etc/dhcp/dhcpd.conf`.
+Para la instalación del servidor isc-dhcp-server hay que ejecutar este comando `apt-get install isc-dhcp-server`
+> Cuando instalamos el servidor por primera se produce un error, ya que no está configurado. Para ver los errores producidos por el servidor hay que acceder fichero **/var/log/syslog** con el comando `less /var/log/syslog` o `tail /var/log/syslog`<br><br>
+
+Dado que tengo instalado el servicio DHCP me dirijo directamente a su configuración en el archivo `/etc/dhcp/dhcpd.conf` el cual es el fichero principal de configuración de DHCP.
 Dentro del archivo hago la configuración de red y su rango, al ser yo 2, la subnet indico **192.168.102.0** y en el rango del
 **192.168.102.100** al **192.168.102.200**, y especifico la puerta de enlace predeterminada con ***option routers***.<br><br>
 ![Texto alternativo](./imagenes/configdhcpserver1.png)<br><br>
 ![Texto alternativo](./imagenes/configdhcpserver2.png)<br>
 
+Estoy definiendo los parámetros necesarios para que los dispositivos conectados a la red reciban una dirección IP y otros datos automáticamente.
+1. **subnet 192.168.2.0 netmask 255.255.255.0**
+***subnet***: Define una red específica para la cual el servidor DHCP asignará direcciones IP.
+***192.168.2.0***: Es la dirección de la subred (en este caso, la red 192.168.2.x).
+***netmask 255.255.255.0***: Define la máscara de subred, que indica el rango de direcciones IP que pertenecen a esta subred. Con esta máscara (/24), las direcciones válidas van de 192.168.2.1 a 192.168.2.254<br><br>
+2. **range 192.168.0.60 192.168.0.90**
+***range***: Especifica el rango de direcciones IP que el servidor DHCP puede asignar dinámicamente a los dispositivos.
+***192.168.2.60 192.168.2.90***: Indica que las direcciones asignables están entre 192.168.2.60 y 192.168.2.90.<br><br>
+3. **option routers 192.168.2.254**
+**option routers**: Especifica la dirección IP del gateway predeterminado para la red.
+**192.168.2.254**: Esta es la dirección IP del router o dispositivo que conecta esta subred a otras redes (por ejemplo, Internet).<br><br>
+4. **option domain-name-server 80.58.0.33, 80.58.32.9**
+***option domain-name-server***: Define las direcciones IP de los servidores DNS que los dispositivos deben usar.
+***80.58.0.33 y 80.58.32.9***: Son los servidores DNS que se proporcionarán a los dispositivos. Estos pueden ser, por ejemplo, servidores DNS públicos proporcionados por un proveedor de servicios de Internet (ISP).<br><br>
+
 Después tengo que configurar `/etc/netplan/00-installer-config.yaml` en concreto voy a configurar la 4 tarjeta de red.
 La configuro para garantizar, dado que tengo varias tarjetas, que se sea estatica y por tanto enp4s0 tiene la IP estática **192.168.102.1/24**, sirviendo como la puerta de enlace para el resto de clientes DHCP que se quieran conectar a esa red.
 Además pongo `dhc4p0: false` pues será el servidor que he configurado quien asiganará las IP según el rango delimitado y además la IP fija sirve para que los clientes sepan donde conectarse, esa puerta de enlace que nombraba antes.<br><br>
 ![Texto alternativo](./imagenes/configdhcpserver3.png)<br><br>
-![Texto alternativo](./imagenes/configdhcpserver6.png)<br>
+![Texto alternativo](./imagenes/configdhcpserver6.png)<br><br>
+Explicación: El servidor Ubuntu que he configurado para ofrecer el servicio DHCP es el responsable de asignar direcciones IP a los clientes en la red. Por tanto, la tarjeta de red que actúa como servidor DHCP (en este caso, la interfaz enp4s0) no debe estar configurada para recibir una IP dinámica. Debe tener una IP estática, ya que esta interfaz se usa para gestionar y distribuir las direcciones IP a otros dispositivos (clientes) en la red. Le asigne una IP estática porque esa interfaz es la que va a actuar como servidor DHCP, distribuyendo direcciones IP a los demás dispositivos de la red.
 
-Lo siguiente será acceder a `/etc/default/isc-dhcp-server` y en V4 poner el nombre de la tarjeta de red configurada, **dhc4p0**.<br><br>
+Lo siguiente será acceder a `/etc/default/isc-dhcp-server` y en **INTERFACESV4** poner el nombre de la tarjeta de red configurada, **dhc4p0**.<br><br>, es decir, configurar el interfaz de red por el que va a trabajar el servidor , en mi caso **enp4s0**.
 ![Texto alternativo](./imagenes/configdhcpserver4.png)<br><br>
 ![Texto alternativo](./imagenes/configdhcpserver5.png)<br>
 
-Después procedo a reiniciar DHCP con `sudo systemctl restart isc-dhcp-server` y con `ip a` ver la correcta asignación de la ip a la tarjeta de red. <br><br>
+Después procedo a reiniciar DHCP con `sudo systemctl restart isc-dhcp-server` o `service isc-dhcp-server restart`y con `ip a` ver la correcta asignación de la ip a la tarjeta de red. <br><br>
 ![Texto alternativo](./imagenes/configdhcpserver7.png)<br><br>
 ![Texto alternativo](./imagenes/configdhcpserver8.png)<br>
 
 Después compruebo que está ejecutandose correctamente con `sudo systemctl status isc-dhcp-server` y que el puerto 67 está en espera.<br><br>
 ![Texto alternativo](./imagenes/escuchadhcp.png)<br><br>
-![Texto alternativo](./imagenes/dhcppuerto67.png)<br>
+![Texto alternativo](./imagenes/dhcppuerto67.png)<br><br>
+
+Comando importantes:
+> `service isc-dhcp-server stop`
+> `service isc-dhcp-server start`
+> `service isc-dhcp-server status`<br><br>
 
 ### Configurando DHCP en el cliente ubuntu
 
@@ -106,20 +130,27 @@ Comprueba la ip con `ip a show enp4s0` o bien `ip a` para ver todas, compruebo q
 Por último prueba la conexión con ping a **192.168.102.1**.<br><br>
 ![Texto alternativo](./imagenes/dhcpubuntu1.png)<br>
 ![Texto alternativo](./imagenes/dhcpubuntu2.png)<br>
-![Texto alternativo](./imagenes/dhcpubuntu3.png)<br>
+![Texto alternativo](./imagenes/dhcpubuntu3.png)<br><br>
+
+Para **liberar la conexión** ejecuto el comando `sudo dhclient -r` liberar la concesión esto significa decirle al cliente que "devuelva" la dirección IP que le asignó el servidor DHCP. El cliente deja de usar esa IP, permitiendo que el servidor DHCP la reasigne a otro dispositivo si es necesario. El comando para **renovar la conexión** es `sudo dhclient` y renovar la concesión significa pedir al servidor DHCP que asigne una nueva dirección IP o renueve la que el cliente ya tenía.<br><br>
+![Texto alternativo](./imagenes/release-ubuntu.png)<br><br>
 
 ### Configurando DHCP en el cliente windows
+
 Preparo la cuarta tarjeta de red de windows y compruebo la dirección obtenida y la conexión mediante ping, esta correcto se asgino la **102**.<br><br>
 ![Texto alternativo](./imagenes/pingdhcpwindows.png)<br><br>
 ![Texto alternativo](./imagenes/pingdhcpwindows2.png)<br><br>
-![Texto alternativo](./imagenes/pingdgcpwindows3.png)<br>
+![Texto alternativo](./imagenes/pingdgcpwindows3.png)<br><br>
 
-Verifico las leases o préstamos del servidor `dhcp-lease-list` y `/var/lib/dhcp/dhcpd.leases_` .<br><br>
+En Windows la instrucción `ipconfig /release` **libera la concesión**, la instrucción `ipconfig /renew` la **renueva**.<br><br>
+
+Verifico las leases o préstamos del servidor, es decir, la lista de direcciones prestadas con `dhcp-lease-list` y `/var/lib/dhcp/dhcpd.leases` .<br><br>
 ![Texto alternativo](./imagenes/dhcpleasing1.png)<br>
-![Texto alternativo](./imagenes/dhcpleasing2.png)<br>
+![Texto alternativo](./imagenes/dhcpleasing2.png)<br><br>
+
 
 Configuro una reserva de IP fija en el servidor DHCP, la dirección 50, reinicio el servicio, y renuevo la IP en windows. 
-Para ello primeo copio la mac desde la terminal en windows y es la que añado en el ubuntu server en **hardware ethernet** y modifico el **fixed-address** otorgando **50**, quedando **192.168.102.50** todo ello editado en `/etc/dhcp/dhcpd.conf` y después verifico que no ha problemas.<br><br>
+Para ello primero copio la mac desde la terminal en windows y es la que añado en el ubuntu server en **hardware ethernet** y modifico el **fixed-address** otorgando **50**, quedando **192.168.102.50** todo ello editado en `/etc/dhcp/dhcpd.conf` donde host es  el nombre que identifica al host, el que quiera.Una vez configurado después verifico que no ha problemas.<br><br>
 ![Texto alternativo](./imagenes/ip501.png)<br>
 ![Texto alternativo](./imagenes/ip503.png)<br>
 ![Texto alternativo](./imagenes/ip504.png)<br>
