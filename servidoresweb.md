@@ -193,18 +193,18 @@ Para que el tráfico de sitio2.com siempre se redirija a www.sitio2.com (o vicev
 
 Redirigir sitio2.com a www.sitio2.com:<br><br>
 
-<VirtualHost *:80>
-    ServerName sitio2.com
-    Redirect permanent / http://www.sitio2.com/
-</VirtualHost>
+<VirtualHost *:80><br>
+    ServerName sitio2.com<br>
+    Redirect permanent / http://www.sitio2.com/<br>
+</VirtualHost><br>
 
-<VirtualHost *:8080>
-    ServerName www.sitio2.com
-    DocumentRoot "/var/www/sitio2"
-    ServerAdmin webmaster@localhost
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
+<VirtualHost *:8080><br>
+    ServerName www.sitio2.com<br>
+    DocumentRoot "/var/www/sitio2"<br>
+    ServerAdmin webmaster@localhost<br>
+    ErrorLog ${APACHE_LOG_DIR}/error.log<br>
+    CustomLog ${APACHE_LOG_DIR}/access.log combined<br>
+</VirtualHost><br>
 Con esto, cualquier solicitud a sitio2.com será automáticamente redirigida a www.sitio2.com.<br><br>
 
 ## etc/hosts hay que poenr todo tipo de dominios a usar
@@ -274,34 +274,31 @@ seguro (por ejemplo, https://sitio2.com), Apache lo manejará en este puerto.
 
 ### La configuración de redirección: *VirtualHost :80
 En el bloque del puerto 80 (HTTP), redirigo a los usuarios a la versión segura del sitio (HTTPS).
-Esto se hace con la directiva **Redirect permanent**.
-<VirtualHost *:80>
-    ServerAdmin webmaster@localhost
-    ServerName www.sitio2.com
-    DocumentRoot "/var/www/sitio2"
-    
-    # Redirigir todo el tráfico HTTP a HTTPS
-    Redirect permanent / https://sitio2.com/
-</VirtualHost>
+Esto se hace con la directiva **Redirect permanent**.<br>
+<VirtualHost *:80><br>
+    ServerAdmin webmaster@localhost<br>
+    ServerName www.sitio2.com<br>
+    DocumentRoot "/var/www/sitio2"<br>
+    # Redirigir todo el tráfico HTTP a HTTPS<br>
+    Redirect permanent / https://sitio2.com/<br>
+</VirtualHost><br>
 
 ### La configuración para HTTPS: *VirtualHost :443
-En este bloque se incluyen las configuraciones para el certificado SSL.
-<VirtualHost *:443>
-    ServerAdmin webmaster@localhost
-    ServerName www.sitio2.com
-    DocumentRoot "/var/www/sitio2"
-    
-    # Activar SSL
-    SSLEngine on
-    SSLCertificateFile /etc/ssl/certs/tu-certificado.crt
-    SSLCertificateKeyFile /etc/ssl/private/tu-clave-privada.key
-    
-    # Archivos de log
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
+En este bloque se incluyen las configuraciones para el certificado SSL.<br>
+<VirtualHost *:443><br>
+    ServerAdmin webmaster@localhost<br>
+    ServerName www.sitio2.com<br>
+    DocumentRoot "/var/www/sitio2"<br>
+    # Activar SSL<br>
+    SSLEngine on<br>
+    SSLCertificateFile /etc/ssl/certs/tu-certificado.crt<br>
+    SSLCertificateKeyFile /etc/ssl/private/tu-clave-privada.key<br>
+    # Archivos de log<br>
+    ErrorLog ${APACHE_LOG_DIR}/error.log<br>
+    CustomLog ${APACHE_LOG_DIR}/access.log combined<br>
+</VirtualHost><br>
 
-## No frozar redirección
+## No forzar redirección
 Si prefiero que los usuarios puedan acceder tanto mediante HTTP como HTTPS, entonces basta con eliminar la línea de redirección del puerto 80.
 `Redirect permanent / https://sitio2.com/`
 Ahora Apache ya no redirigirá automáticamente a los usuarios de HTTP a HTTPS, y en su lugar, permitiría que se conecten a tu sitio tanto 
@@ -318,23 +315,20 @@ Lo habilito con el comando: `sudo a2enmod http2`.
 
 Luego añado la directiva Protocols en la configuración del servidor apache o en un archivo de configuración de un sitio específico.
 
-Puedo añadirla en el bloque <VirtualHost *:443> para HTTPS. Debería verse algo así:
+Puedo añadirla en el bloque <VirtualHost *:443> para HTTPS. Debería verse algo así:<br>
 
-<VirtualHost *:443>
-    ServerAdmin webmaster@tu-sitio.com
-    DocumentRoot /var/www/tu-sitio
-    ServerName www.tu-sitio.com
-
-    # Configuración SSL
-    SSLCertificateFile /etc/ssl/certs/tu-certificado.crt
-    SSLCertificateKeyFile /etc/ssl/private/tu-clave-privada.key
-
-    # Activar HTTP/2
-    Protocols h2 http/1.1
-
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
+<VirtualHost *:443><br>
+    ServerAdmin webmaster@tu-sitio.com<br>
+    DocumentRoot /var/www/tu-sitio<br>
+    ServerName www.tu-sitio.com<br>
+    # Configuración SSL<br>
+    SSLCertificateFile /etc/ssl/certs/tu-certificado.crt<br>
+    SSLCertificateKeyFile /etc/ssl/private/tu-clave-privada.key<br>
+    # Activar HTTP/2<br>
+    Protocols h2 http/1.1<br>
+    ErrorLog ${APACHE_LOG_DIR}/error.log<br>
+    CustomLog ${APACHE_LOG_DIR}/access.log combined<br>
+</VirtualHost><br>
 
 Explicación: La directiva Protocols h2 http/1.1 indica que Apache debe soportar HTTP/2 (h2) y 
 también seguir soportando HTTP/1.1 (http/1.1) para clientes que no son compatibles con HTTP/2.
