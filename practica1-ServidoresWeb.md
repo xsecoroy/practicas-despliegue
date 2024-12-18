@@ -37,7 +37,7 @@ Después procedo a activarlos siendo en apache con **a2ensite**.
 
 Abr0 el archivo de configuración del sitio en Apache con **sudo nano /etc/apache2/sites-available/web3.conf**
 
-Añado el siguiente bloque de configuración dentro del archivo para habilitar HTTPS: <VirtualHost *:443> con los correspondientes enlaces del ceritificado.
+Añado el siguiente bloque de configuración dentro del archivo para habilitar HTTPS: <VirtualHost *:443> con los correspondientes enlaces del ceritificado.<br>
 ![Texto alternativo](./imagenes/archibuneno.png)<br>
 
 ### Sitio 4
