@@ -41,6 +41,16 @@ Eso si, si se aplican cambios habrá que reiniciarlo con `sudo systemctl restart
 
 ## 2 - Conexión y pruebas desde el cliente ubuntu
 
+Compruebo si tiengoen el cliente SSH instalado, para ello ejecuto el siguiente comando:
+`ssh -V`<br>
+
+Este comando mostrará la versión de ssh instalada, si está disponible.
+
+Si no está instalado, lo instalo con:
+
+`sudo apt update`
+`sudo apt install openssh-client`
+
 Previamente deberé tener una clave SSH en la maquina cliente, para ello la consiguo
 con el comando `ssh-keygen` el cual me generará una nueva clave pudiendo sobreescribir
 la existente o creando una nueva especificando ruta y nombre:
@@ -49,6 +59,11 @@ la existente o creando una nueva especificando ruta y nombre:
 
 Lo siguiente es crear la conexión entre el cliente y el servidor para usarse en adelante sin contraseña.
 Para ello teniendo esto en cuenta:<br>
+
+Por defecto, las claves se guardarán en:
+Clave privada: ~/.ssh/id_rsa
+Clave pública: ~/.ssh/id_rsa.pub<br>
+
 Clave privada: ~/.ssh/new_ssh_key → Es el identificador único secreto. Debe mantenerse segura y no compartirse.<br>
 Clave pública: ~/.ssh/new_ssh_key.pub → Es la parte que debo compartir con los servidores para autenticarme.
 
