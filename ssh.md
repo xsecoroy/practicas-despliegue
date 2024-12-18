@@ -38,6 +38,8 @@ predeterminado en #Port 22.
 
 Eso si, si se aplican cambios habrá que reiniciarlo con `sudo systemctl restart ssh` .
 
+`sudo ufw allow ssh`<br>
+`sudo ufw enable`<br>
 
 ## 2 - Conexión y pruebas desde el cliente ubuntu
 
@@ -50,6 +52,8 @@ Si no está instalado, lo instalo con:
 
 `sudo apt update`
 `sudo apt install openssh-client`
+
+Si el server me deja no debo ni crear claves, ejecuto ya directamente `ssh usuario@ip_del_servidor`, sino debo hacer lo de abajo.
 
 Previamente deberé tener una clave SSH en la maquina cliente, para ello la consiguo
 con el comando `ssh-keygen` el cual me generará una nueva clave pudiendo sobreescribir

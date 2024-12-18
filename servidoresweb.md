@@ -12,37 +12,36 @@ Después: `sudo systemctl reload apache2`<br><br>
 
 ## 2 - Crear un sitio web
 
-Para mi web, www.sitio1.com.<br><br>
+Para mi web, www.sitio1.com.<br>
 
-Primero - Creo el contenido del sitio en **/var/www/sitio1** :<br><br>
+Primero - Creo el contenido del sitio en **/var/www/sitio1** :<br>
 
-`sudo mkdir -p /var/www/sitio1`<br><br>
-`echo "<h1>Bienvenido a mi sitio</h1>" | sudo tee /var/www/sitio1/index.html`<br><br>
+`sudo mkdir -p /var/www/sitio1`<br>
+`echo "<h1>Bienvenido a mi sitio</h1>" | sudo tee /var/www/sitio1/index.html`<br>
 
-Segundo - Creo un archivo de configuración para sitio1 en **/etc/apache2/sites-available/sitio1.conf**:<br><br>
+Segundo - Creo un archivo de configuración para sitio1 en **/etc/apache2/sites-available/sitio1.conf**:<br>
 
-`sudo nano /etc/apache2/sites-available/sitio1.conf`<br><br>
+`sudo nano /etc/apache2/sites-available/sitio1.conf`<br>
 
 El contenido que debe tener es así:<br><br>
-`<VirtualHost *:80>
-    ServerAdmin webmaster@localhost
-    ServerName sitio1.com
-    ServerAlias www.sitio1.com sitio1
-    DocumentRoot /var/www/tusitio
+<VirtualHost *:80><br>
+    ServerAdmin webmaster@localhost<br>
+    ServerName sitio1.com<br>
+    ServerAlias www.sitio1.com sitio1<br>
+    DocumentRoot /var/www/tusitio<br>
+    ErrorLog ${APACHE_LOG_DIR}/error.log<br>
+    CustomLog ${APACHE_LOG_DIR}/access.log combined<br>
+</VirtualHost><br>
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>`<br><br>
-
-Tercero - Debo habilitar el sitio web con los comandos:<br><br>
-`sudo a2ensite sitio1.conf`<br><br>
-`sudo systemctl reload apache2`<br><br>
+Tercero - Debo habilitar el sitio web con los comandos:<br><
+`sudo a2ensite sitio1.conf`<br>
+`sudo systemctl reload apache2`<br>
 
 **IMPORTANTE**
-Como no tengo un dominio real debo modificar la configuración del archivo hosts:<br><br>
+Como no tengo un dominio real debo modificar la configuración del archivo hosts( en el servidor ):<br>
 
-En **/etc/hosts** añado:<br><br>
-`127.0.0.1    sitio1.com www.sitio1.com`<br><br>
+En **/etc/hosts** añado:<br>
+`127.0.0.1    sitio1.com www.sitio1.com`<br>
 Ahora, al entrar en www.sitio1.com desde el navegador, apuntará al servidor local (localhost).<br><br>
 
 ## A2ensite
@@ -60,24 +59,24 @@ El comando a2ensite ("Apache2 Enable Site") habilita tu sitio web. Lo que hace i
 Crea un enlace simbólico en /etc/apache2/sites-enabled/ que apunta al archivo original en /etc/apache2/sites-available/<br><br>
 
 ## Reglas puertos Apache<br><br>
-En el archivo `/etc/apache2/ports.conf` establezco el puerto que escuahrá apache,<br><br>
+En el archivo `/etc/apache2/ports.conf` establezco el puerto que escuchará apache,
 si establezco **Listen 8080** estoy diciendo a apache ***Abre y escucha conexiones en el puerto 8080***.<br><br>
-Después en el archivo conf de cada sitio como `/etc/apache2/sites-available/000-default.conf` también se configura en **<VirtualHost *:PUERTO>** debe coincidir con uno de los puertos configurados en ports.conf usando Listen. Por tanto si establezco **<VirtualHost *:8080>** estoy diciendo que  ***Este sitio web responderá únicamente a las peticiones que lleguen al puerto 8080***.<br><br>
+Después en el archivo conf de cada sitio como `/etc/apache2/sites-available/000-default.conf` también se configura en `<VirtualHost *:PUERTO>` debe coincidir con uno de los puertos configurados en ports.conf usando Listen. Por tanto si establezco `<VirtualHost *:8080>` estoy diciendo que  ***Este sitio web responderá únicamente a las peticiones que lleguen al puerto 8080***.<br>
 
-Si pongo 80 en VirtualHost y 8080 en ports.conf, El VirtualHost nunca será activado porque Apache no está escuchando en el puerto 80, solo en 8080, por tanto Apache no sabrá cómo manejar las peticiones al puerto 8080 para ese VirtualHost porque no hay concordancia.<br><br>
+Si pongo 80 en VirtualHost y 8080 en ports.conf, El VirtualHost nunca será activado porque Apache no está escuchando en el puerto 80, solo en 8080, por tanto Apache no sabrá cómo manejar las peticiones al puerto 8080 para ese VirtualHost porque no hay concordancia.<br>
 
 En caso de querer usar ambas podria ponerlas en **ports.conf** así:<br><br>
 **Listen 80**
 **Listen 8080**<br><br>
 Luego en el archivo del sitio así:
-<VirtualHost *:80>
-    DocumentRoot /var/www/html
-    ServerName localhost
-</VirtualHost>
+<VirtualHost *:80><br>
+    DocumentRoot /var/www/html<br>
+    ServerName localhost<br>
+</VirtualHost><br>
 
-<VirtualHost *:8080>
-    DocumentRoot /var/www/html
-    ServerName localhost
+<VirtualHost *:8080><br>
+    DocumentRoot /var/www/html<br>
+    ServerName localhost<br>
 </VirtualHost><br><br>
 
 
@@ -86,19 +85,19 @@ En nginx no hay un archivo como en apache generico `/etc/apache2/ports.conf` el 
 En el ejemplo anterior de sitio 2 en server añadiria una linea con **LISTEN puerto**<br><br>
 server {
     listen 8080;  # Este es el puerto en el que Nginx escuchará
-Si quiero que el sitio escuche en varios puertos (como 80 y 8080), debo configurar varios bloques server { ... } para cada puerto.
-server {
-    listen 80;  # Escuchar en el puerto 80
-    server_name sitio2.local;
-    root /var/www/sitio2;
-    index index.html;
-}
+Si quiero que el sitio escuche en varios puertos (como 80 y 8080), debo configurar varios bloques server { ... } para cada puerto.<br>
+server {<br>
+    listen 80;  # Escuchar en el puerto 80<br>
+    server_name sitio2.local;<br>
+    root /var/www/sitio2;<br>
+    index index.html;<br>
+}<br>
 
-server {
-    listen 8080;  # Escuchar en el puerto 8080
-    server_name sitio2.local;
-    root /var/www/sitio2;
-    index index.html;
+server {<br>
+    listen 8080;  # Escuchar en el puerto 8080<br>
+    server_name sitio2.local;<br>
+    root /var/www/sitio2;<br>
+    index index.html;<br>
 }<br><br>
 
 ## Proxy inverso
@@ -344,18 +343,29 @@ Por último `sudo systemctl restart apache2`.
 
 ## Activación de sitios Apache vs Nginx
 En Apache, los sitios se activan con el comando **a2ensite** este comando automáticamente crea un enlace simbólico desde el directorio 
-**sites-available** hacia **sites-enabled**, activando la configuración del sitio. No necesitas hacer esto manualmente, 
-ya que a2ensite se encarga de crear el enlace simbólico por ti.
-`sudo a2ensite mi_sitio.conf`
-`sudo systemctl reload apache2`
+**sites-available** hacia **sites-enabled**, activando la configuración del sitio. No necesito hacer esto manualmente, 
+ya que a2ensite se encarga de crear el enlace simbólico por mi.
+Ativacion:
+`sudo a2ensite mi_sitio.conf`<br>
+`sudo systemctl reload apache2`<br>
+Desactivación:
+`sudo a2dissite mi_sitio.conf`<br>
+`sudo systemctl reload apache2`<br>
 
-En Nginx, el proceso es manual. Cuando creas un archivo de configuración para un sitio en **/etc/nginx/sites-available/** necesitas crear 
+En Nginx, el proceso es manual. Cuando creo un archivo de configuración para un sitio en **/etc/nginx/sites-available/** necesito crear 
 un enlace simbólico hacia **/etc/nginx/sites-enabled/** para activarlo.
-
-`sudo ln -s /etc/nginx/sites-available/mi_sitio /etc/nginx/sites-enabled/`
-`sudo systemctl reload nginx`
+Activación:
+`sudo ln -s /etc/nginx/sites-available/mi_sitio /etc/nginx/sites-enabled/`<br>
+`sudo systemctl reload nginx`<br>
+Desactivación:
+`sudo rm /etc/nginx/sites-enabled/mi_sitio`<br>
+`sudo systemctl reload nginx`<br>
 Esto es necesario porque Nginx no tiene un comando similar a a2ensite de Apache. Entonces, debes hacerlo manualmente
-usando **ln -s** para crear el enlace simbólico.
+usando **ln -s** para crear el enlace simbólico.<br>
+
+Borrar de ambos definitvamente:<br>
+`sudo rm /etc/apache2/sites-available/mi_sitio.conf`<br>
+`sudo rm /etc/nginx/sites-available/mi_sitio`
 
 **SIN NETPLAN EN EL SERVER**
 `sudo apt update`
