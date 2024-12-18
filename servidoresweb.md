@@ -298,6 +298,10 @@ En este bloque se incluyen las configuraciones para el certificado SSL.<br>
     CustomLog ${APACHE_LOG_DIR}/access.log combined<br>
 </VirtualHost><br>
 
+![Texto alternativo](./imagenes/multiples-puertos.png)<br><br>
+
+![Texto alternativo](./imagenes/multiples-puertos2.png)<br><br>
+
 ## No forzar redirección
 Si prefiero que los usuarios puedan acceder tanto mediante HTTP como HTTPS, entonces basta con eliminar la línea de redirección del puerto 80.
 `Redirect permanent / https://sitio2.com/`
