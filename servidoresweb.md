@@ -369,7 +369,8 @@ Borrar de ambos definitvamente:<br>
 `sudo apt update`
 `sudo apt install netplan.io`
 
-Otro forma  de conectarme
+Otro forma  de conectarme, pro dominio. En el cliente lo pongo en `sudo nano /etc/hosts` así 
+**192.168.2.1 mi-sitio3.com** y luego ssh normal `ssh usuario@mi-sitio3.com`<br><br>
 
 ## Permisos
 
