@@ -385,13 +385,20 @@ Clonao el repositorio en un directorio con un nombre personalizado:
 Esto creará un subdirectorio llamado **mi-aplicacion** en lugar de demoapinode.<br><br>
 
 **¿Qué pasa después de clonar el repositorio?**
-Accedo al directorio clonado `cd demoapinode` e instalo las dependencias del proyecto: Si el proyecto tiene un archivo package.json (como en este caso),
-instalo las dependencias necesarias con `npm install`.<br><br>
+Accedo al directorio clonado `cd demoapinode` e instalo las dependencias del proyecto: Si el proyecto tiene un archivo package.json (como en este caso), instalo las dependencias necesarias con `npm install`.<br><br>
 Configuro la base de datos y otros parámetros.<br><br>
 Ejecuto la aplicación con `npm start`<br><br>
 
-**Problema al hacer `npm install`** lo solucione dando permisos al usuario actual sobre el proyecto:<br><br>
-`sudo chown -R $USER:$USER /home/proyectonode/demoapinode`
+**Problema al hacer `npm install`** lo solucione dando permisos al usuario actual sobre el proyecto, para ello verifico si isard es el dueño o es root:<br><br>
+`ls -ld /home/isard/demoapinode`<br><br> 
+Si efectivamente es root cambio el ownership y doy permisos:<br><br>
+`sudo chown -R $USER:$USER /home/proyectonode/demoapinode`<br><br>
+`sudo chmod -R 775 /home/isard/demoapinode`<br><br>
+
+
+Si sigue dando problemas ejecuto esto:<br><br>
+`rm -rf node_modules package-lock.json`<br><br>
+ `npm install -g npm@latest`<br><br>
 
 **Pasos para importar el archivo SQL del proyecto node**<br><br>
 Creo la base de datos demo en MySQL, primero, accede a MySQL con mi usuario (por ejemplo, king):<br><br>
