@@ -8,7 +8,9 @@
 
 * [Práctica 2](practica2.md)
 
-* [Práctica 3](practica1-ServidoresWeb.md)
+* [Práctica ServidoresWeb](practica1-ServidoresWeb.md)
+
+* [Práctica 3](practica3.md)
 
 ## Apuntes personales
 
