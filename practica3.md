@@ -120,7 +120,7 @@ Lo releventa es **listen** donde pongo un puerto distinto al de apache y node, e
 
 Después debo habilitar la configuración, es decir que aparezca correcto en sites-enabled, para ello
 creo un enlace simbólico para habilitar la configuración:<br><br>
-`sudo ln -s /etc/nginx/sites-available/proxy-config /etc/nginx/sites-enabled/`<br><br>
+`sudo ln -s /etc/nginx/sites-available/proxyinverso /etc/nginx/sites-enabled/`<br><br>
 
 ![Texto alternativo](./imagenes/enableddelinverso.png)<br><br>
 
