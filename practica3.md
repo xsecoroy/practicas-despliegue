@@ -42,17 +42,17 @@ Esto crea un subdirectorio llamado **depliegue1** en vez de **demoppphp**.<br><b
 
 
 2. Verifico la importación:<br><br>
-Vuelvo a conectarme a MySQL y selecciono la base de datos demo para ver que esat correcto:<br><br>
+Vuelvo a conectarme a MySQL y selecciono la base de datos demo para ver que esta correcto:<br><br>
 `mysql -u demo -p`<br><br>
 `USE demo;`<br><br>
 `SHOW TABLES;`<br><br>
 ![Texto alternativo](./imagenes/mostrartabla.png)<br><br>
 
-3. Configuro los dominios den /etc/hosts<br><br>
+3. Configuro los dominios en **/etc/hosts**<br><br>
 ![Texto alternativo](./imagenes/dominiosenhosts.png)<br><br>
 
 4. Apache recibe la solicitud<br><br>
-Apache, que está escuchando en el puerto 80 (por defecto), pero yo lo he cambiado al 8080, en el archivo **/etc/apache2/ports.conf** . 
+Apache, que está escuchando en el puerto 80 (por defecto), pero yo lo he cambiado al 8080, en el archivo **/etc/apache2/ports.conf** . <br><br>
 ![Texto alternativo](./imagenes/puertoapacheportconf.png)<br><br>
 
 5. Apache busca el Virtual Host correspondiente<br><br>
@@ -67,7 +67,7 @@ Ejecuto: **sudo a2ensite despliegue1.conf** <br><br>
 Apache crea un enlace simbólico desde **/etc/apache2/sites-available/demo.conf** a **/etc/apache2/sites-enabled/demo.conf**.<br><br>
 ![Texto alternativo](./imagenes/apachesitienable.png)<br><br>
 
-7. Configuro el archivo index.php dentro de /var/www/depliegue1/app/index.php con las nuevas credenciales que hice en mysql.<br><br>
+7. Configuro el archivo index.php dentro de ***/var/www/depliegue1/app/index.php*** con las nuevas credenciales que hice en mysql.<br><br>
 ![Texto alternativo](./imagenes/confiindexphp.png)<br><br>
 
 8. Apache sirve el archivo al navegador<br><br>
@@ -97,7 +97,7 @@ Ejecuto la aplicación con `npm start`<br><br>
 
 **Problema al hacer `npm install`** lo solucioné dando permisos al usuario actual sobre el proyecto, para ello verifque si isard es el dueño o es root:<br><br>
 `ls -ld /home/isard/demoapinode`<br><br> 
-Si efectivamente es root cambio el ownership y doy permisos:<br><br>
+Como efectivamente es root cambio el ownership y doy permisos:<br><br>
 `sudo chown -R $USER:$USER /home/proyectonode/demoapinode`<br><br>
 `sudo chmod -R 775 /home/isard/demoapinode`<br><br>
 
