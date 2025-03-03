@@ -8,9 +8,9 @@ los datos de MySQL son persistentes y no se perderán elimine o reinicie el cont
 ```yaml
 - volumen1:/docker-entrypoint-initdb.d
 ```
-**DB1**
+**DB1**<br><br>
 ![Texto alternativo](./imagenes/db1.png)<br><br>
-**VOLUMENES PERSONALIZADOS**
+**VOLUMENES PERSONALIZADOS**<br><br>
 ![Texto alternativo](./imagenes/volumenes.png)<br><br>
 
 He buscado la formado de crear volumenes personalizados que apunten a directorios en local ya creados. Lo he hecho así, por un lado lo relativo a db del sitio de apache+php esta en el directorio init-db dentro del directorio raiz de la practica ( volumen 1).<br><br>
@@ -20,7 +20,7 @@ Es importante esto por que docker MySQL ejecutara automáticamente los archivos 
 
 Logro que el archivo SQL dentro de ./init-db, **demo.sql**, se ejecute automáticamente la primera vez que MySQL inicie. Inicializo la base de datos con datos predefinidos.<br><br>
 
-**DB2**
+**DB2**<br><br>
 ![Texto alternativo](./imagenes/db2.png)<br><br>
 Luego con el segundo sitio, la clonacion de node esta en el subdirectorio **/node** y como se peude ver en el volumen 2 asi lo establezco y luego hago uso de ello en el conteendor db2.
 <br><br>
@@ -115,9 +115,9 @@ Defino **/usr/src/app**como el directorio de trabajo dentro del contenedor.
 ***IMPORTANTE-PARA GARANTIZAR ESA COMUNICACIÓN ENTRE CONTENEDORES DEBEN ESTAR EN LA MISMA RED, EN ESTA PRÁCTICA SON DOS BACKEND Y FRONTEND. Docker proporciona un sistema de resolución de nombres que permite que los contenedores se encuentren entre sí usando sus nombres.**<br><br>
 
 ## TODOS LOS CONTENEDORES
- **FUNCIONA**
+ **FUNCIONA**<br><br>
 ![Texto alternativo](./imagenes/funcionamientolocal.png)<br><br>
-**ARCHIVO-COMPOSE**
+**ARCHIVO-COMPOSE**<br><br>
 ![Texto alternativo](./imagenes/COMPOSE1.png)<br><br>
 ![Texto alternativo](./imagenes/COMPOSE2.png)<br><br>
 ![Texto alternativo](./imagenes/COMPOSE3.png)<br><br>
