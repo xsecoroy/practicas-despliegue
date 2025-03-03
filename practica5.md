@@ -73,7 +73,7 @@ Configuré antes el index.php del sitio de apache + php,contenedor app1,con las 
 ![Texto alternativo](./imagenes/app2--local.png)<br><br>
 
 Con node segui otro enfoque, con el conteendor de apache+php era automatico, ahora lo hare manual, es decir, rellenar la tabla una vez los contenedores están corriendo accediendo a ellos.<br><br>
- Para ello cree un volumen en el contenedor **db2**:
+ Para ello cree un volumen en el contenedor **db2** de nombre de contenedor **dbapp2** (me referire a el por comodidad db2):
 - ./node/sql:/sql <br><br>
 Pero al principio como mostre o en las fotos cree volumen 2 personalizado por lo que acabo siendo : **volumen2:/sql**<br><br>
 
@@ -82,15 +82,18 @@ En el directorio raiz del proyecto, maquina local, cree el subdirectorio **node*
 Pero dentro de este subdirectorio tengo a su vez otro subdirectorio donde tendre archivos sql que mi aplicacion node requiere. 
 <br><br> He de crear un volumen en  el contenedor **db2** para accediendo a este poder importarlos en la BBDD mysql.<br><br>
 
-Ahora bien necesito manualmente insertar esos datos sql, para ello entro en el contenedor de la segunda base de datos**db**:
-**docker exec -it dbd2 bash**
+Ahora bien necesito manualmente insertar esos datos sql, para ello entro en el contenedor de la segunda base de datos, contenedor **db2** :
+**docker exec -it dbapp2 bash**
 Verifico que se ha creado el directorio sql con el archivo sql de node.<br><br>
 ![Texto alternativo](./imagenes/nodedentro.png)<br><br>
 
 Una vez dentro y tras comprobar procedo a importar el archivo SQL desde el volumen compartido<br><br>
-**mysql -u root -p demo < /sql/demo.sql**
+**mysql -u user2 -p dbapp2 < /sql/demo.sql**
 Verfico el nuevo contenido de la BBDD demo con las tablas de node.<br><br>
-![Texto alternativo](./imagenes/dbapp222.png)<br><br>
+![Texto alternativo](./imagenes/bashennode.png)<br><br>
+
+Importe este archivo en el cual cambio el nombre de la BBDD<br><br>
+![Texto alternativo](./imagenes/demo-node-sql.png)<br><br>
 
 Ademas en local en mis subdirectorio node confifugo el archivo db.js con las credenciales del dbcontenedor db1.<br><br>
 ![Texto alternativo](./imagenes/configdbjs.png)<br><br>
@@ -112,6 +115,7 @@ volumes:
   - volumen2:/usr/src/app
 ```
 <br><br>
+
 Obviamente creo ese volumen tambien para el conteendor node, los archivos de la carpeta **./node** en local estarán disponibles dentro del contenedor node en **/usr/src/app**.<br><br>
 
 ***working_dir: /usr/src/app***<br><br>
@@ -119,13 +123,18 @@ Defino **/usr/src/app** como el directorio de trabajo dentro del contenedor.
 
 ***IMPORTANTE-PARA GARANTIZAR ESA COMUNICACIÓN ENTRE CONTENEDORES DEBEN ESTAR EN LA MISMA RED, EN ESTA PRÁCTICA SON DOS BACKEND Y FRONTEND. Docker proporciona un sistema de resolución de nombres que permite que los contenedores se encuentren entre sí usando sus nombres.**<br><br>
 
-![Texto alternativo](./imagenes/app2--local.png)<br><br>
 ![Texto alternativo](./imagenes/app2nodeeee.png)<br><br>
-![Texto alternativo](./imagenes/finalpuesta.png)<br><br>
+![Texto alternativo](./imagenes/demoapideseosr.png)<br><br>
 
-## TODOS LOS CONTENEDORES
- **FUNCIONA**<br><br>
-![Texto alternativo](./imagenes/funcionamientoglocal.png)<br><br>
+## TODOS LOS CONTENEDORES CODIGO Y DIRECTORIOS
+**DIRECTORIOS**<br><br>
+Aquñi y comparandolos con el compose se ve elc ontexto de cada rchivo y directorio y como esta correcto.<br><br>
+
+![Texto alternativo](./imagenes/DIRECTORIO1.png)<br><br>
+![Texto alternativo](./imagenes/DIRECTORIO2.png)<br><br>
+
+**DESPLIEGUE**<br><br>
+![Texto alternativo](./imagenes/funcionamientoglobal.png)<br><br>
 **ARCHIVO-COMPOSE**<br><br>
 ![Texto alternativo](./imagenes/COMPOSE1.png)<br><br>
 ![Texto alternativo](./imagenes/COMPOSE2.png)<br><br>
