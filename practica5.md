@@ -28,14 +28,12 @@ Luego con el segundo sitio, la clonacion de node esta en el subdirectorio **/nod
 ## CONFIGURACIÓN CONTENEDOR APACHE + PHP
 
 Como la BBDD demo y datos que necesito para el index.php de este contenedor se creo al hacer en el contenedor db1 **volumen1:/docker-entrypoint-initdb.d** ( pues todo lo que requiere
-este contenedor de la BBDD esta en esa ruta) no tendre que hacer nada de forma manual, ya esta todo en mysql.
-
-**¿Cómo hago para que apache escuche el 8000?**
+este contenedor de la BBDD esta en esa ruta) no tendre que hacer nada de forma manual, ya esta todo en mysql.<br><br>
 
 ![Texto alternativo](./imagenes/sitio1.png)<br><br>
 ![Texto alternativo](./imagenes/db1.png)<br><br>
 ![Texto alternativo](./imagenes/volumenes.png)<br><br>
-
+**¿Cómo hago para que apache escuche el 8000?**
 Cambio el puerto en el servidor Apache dentro del contenedor editando el Dockerfile de web1 y agregando:
 ``` yaml
 FROM php:7.2-apache
@@ -55,7 +53,7 @@ ports:
 <br><br>
 
 Con **environment (VIRTUAL_HOST y VIRTUAL_PORT)** las usará nginx-proxy para configurar el proxy inverso automáticamente.
-VIRTUAL_HOST=web1.com,www.web1.com cuando acceda a esos dominios nginx-proxy sabrá redirigir las solicitudes al contenedor donde estan declarados bajo una variable VIRTUAL_HOST.<br><br>
+VIRTUAL_HOST=app1.local  cuando acceda a esos dominios nginx-proxy sabrá redirigir las solicitudes al contenedor donde estan declarados bajo una variable VIRTUAL_HOST.<br><br>
 VIRTUAL_PORT=8080 le indico a nginx-proxy que este contenedor está escuchando en el puerto 8080y por tanto mande la petición a ese puerto.<br><br>
 
 Con **ports** expongo el puerto del contenedor (8080) en el host (8080 también).Con ello puedo acceder desde fuera del contenedor, en local así: http://app1.local:8080.<br><br>
@@ -70,9 +68,9 @@ Configuré antes el index.php del sitio de apache + php,contenedor app1,con las 
 
 ## CONFIGURACIÓN CONTENEDOR NODE
 
-![Texto alternativo](./imagenes/app2--local.png)<br><br>
 ![Texto alternativo](./imagenes/db2.png)<br><br>
 ![Texto alternativo](./imagenes/volumenes.png)<br><br>
+![Texto alternativo](./imagenes/app2--local.png)<br><br>
 
 Con node segui otro enfoque, con el conteendor de apache+php era automatico, ahora lo hare manual, es decir, rellenar la tabla una vez los contenedores están corriendo accediendo a ellos.<br><br>
  Para ello cree un volumen en el contenedor **db**:
