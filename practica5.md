@@ -119,6 +119,9 @@ Defino **/usr/src/app** como el directorio de trabajo dentro del contenedor.
 
 ***IMPORTANTE-PARA GARANTIZAR ESA COMUNICACIÓN ENTRE CONTENEDORES DEBEN ESTAR EN LA MISMA RED, EN ESTA PRÁCTICA SON DOS BACKEND Y FRONTEND. Docker proporciona un sistema de resolución de nombres que permite que los contenedores se encuentren entre sí usando sus nombres.**<br><br>
 
+![Texto alternativo](./imagenes/app2--local.png)<br><br>
+![Texto alternativo](./imagenes/app2nodeeee.png)<br><br>
+![Texto alternativo](./imagenes/finalpuesta.png)<br><br>
 
 ## TODOS LOS CONTENEDORES
  **FUNCIONA**<br><br>
