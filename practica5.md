@@ -105,16 +105,24 @@ volumes:
   - ./node:/usr/src/app
 ```
 <br><br>
-Obviamente creo ese volumen tambien para el conteendor node, los archivos de la carpeta **./node** en local estarán disponibles dentro del contenedor node en **/usr/src/app**.
+Se transforma en :<br><br>
 
-working_dir: /usr/src/app
-Defino **/usr/src/app**como el directorio de trabajo dentro del contenedor.
+```yaml
+volumes:
+  - volumen2:/usr/src/app
+```
+<br><br>
+Obviamente creo ese volumen tambien para el conteendor node, los archivos de la carpeta **./node** en local estarán disponibles dentro del contenedor node en **/usr/src/app**.<br><br>
+
+***working_dir: /usr/src/app***<br><br>
+Defino **/usr/src/app** como el directorio de trabajo dentro del contenedor.
 
 ***IMPORTANTE-PARA GARANTIZAR ESA COMUNICACIÓN ENTRE CONTENEDORES DEBEN ESTAR EN LA MISMA RED, EN ESTA PRÁCTICA SON DOS BACKEND Y FRONTEND. Docker proporciona un sistema de resolución de nombres que permite que los contenedores se encuentren entre sí usando sus nombres.**<br><br>
 
+
 ## TODOS LOS CONTENEDORES
  **FUNCIONA**<br><br>
-![Texto alternativo](./imagenes/funcionamientolocal.png)<br><br>
+![Texto alternativo](./imagenes/funcionamientoglocal.png)<br><br>
 **ARCHIVO-COMPOSE**<br><br>
 ![Texto alternativo](./imagenes/COMPOSE1.png)<br><br>
 ![Texto alternativo](./imagenes/COMPOSE2.png)<br><br>
