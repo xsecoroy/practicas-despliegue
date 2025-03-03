@@ -73,17 +73,17 @@ Configuré antes el index.php del sitio de apache + php,contenedor app1,con las 
 ![Texto alternativo](./imagenes/app2--local.png)<br><br>
 
 Con node segui otro enfoque, con el conteendor de apache+php era automatico, ahora lo hare manual, es decir, rellenar la tabla una vez los contenedores están corriendo accediendo a ellos.<br><br>
- Para ello cree un volumen en el contenedor **db**:
+ Para ello cree un volumen en el contenedor **db2**:
 - ./node/sql:/sql <br><br>
-Pero al principio como cree volumen 2 personalizado por lo que acabo siendo : **volumen2:/sql**<br><br>
+Pero al principio como mostre o en las fotos cree volumen 2 personalizado por lo que acabo siendo : **volumen2:/sql**<br><br>
 
 En el directorio raiz del proyecto, maquina local, cree el subdirectorio **node** donde tengo lo recibido de hacer el git clone a https://github.com/rafacabeza/demoapinode.<br><br>
 
 Pero dentro de este subdirectorio tengo a su vez otro subdirectorio donde tendre archivos sql que mi aplicacion node requiere. 
-<br><br> He de crear un volumen en  el conteendor **db** para accediendo a este poder importarlos en la BBDD mysql.<br><br>
+<br><br> He de crear un volumen en  el contenedor **db2** para accediendo a este poder importarlos en la BBDD mysql.<br><br>
 
 Ahora bien necesito manualmente insertar esos datos sql, para ello entro en el contenedor de la segunda base de datos**db**:
-**docker exec -it dbdaw bash**
+**docker exec -it dbd2 bash**
 Verifico que se ha creado el directorio sql con el archivo sql de node.<br><br>
 ![Texto alternativo](./imagenes/nodedentro.png)<br><br>
 
@@ -92,7 +92,7 @@ Una vez dentro y tras comprobar procedo a importar el archivo SQL desde el volum
 Verfico el nuevo contenido de la BBDD demo con las tablas de node.<br><br>
 ![Texto alternativo](./imagenes/dbapp222.png)<br><br>
 
-Ademas en local en mis subdirectorio node confifuro el archivo db.js con las credenciales del dbcontenedor db1.<br><br>
+Ademas en local en mis subdirectorio node confifugo el archivo db.js con las credenciales del dbcontenedor db1.<br><br>
 ![Texto alternativo](./imagenes/configdbjs.png)<br><br>
 
 **RECAPITULANDO EN MI MAQUINA LOCAL CREO UNA CARPETA DONDE ESTA TODO LO RELACIONADO A MYSQL PERO DE LA APLICACIÓN NODE,**
